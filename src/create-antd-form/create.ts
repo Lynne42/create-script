@@ -32,15 +32,7 @@ const createReactComponent = (props: FormType, children: any) => {
 
 // 创建form.item
 const createAntdFormItem = (props: FormComponentType, children: any) => {
-  const {
-    type,
-    label,
-    name,
-    initialValue,
-    rules = [],
-    formItemClassname = "",
-    props: childProps,
-  } = props;
+  const { type, label, name, initialValue, formItemClassname = "" } = props;
   if (type === "layer") {
     return `<Form.Item
             label='${label}'
@@ -62,20 +54,29 @@ const createAntdFormItem = (props: FormComponentType, children: any) => {
 
 // 创建antd form 各个组件
 const createAntdFormComponentType = (type: string, props: any) => {
+  const nowType = type.replace(type[0], type[0].toLowerCase());
   const { name, options, ...other } = props || {};
   const optionsConfigName = `${props.name}ListConfig`;
 
   const ot = Object.keys(other)
     .map((item) => `${item}='${other[item]}'`)
     .join("");
-  switch (type) {
+  switch (nowType) {
     case "input": {
       antdImport.push("Input");
       return `<Input allowClear ${ot} />`;
     }
+    case "inputNumber": {
+      antdImport.push("InputNumber");
+      return `<InputNumber style={{ width: '100%' }} ${ot} />`;
+    }
+
     case "select": {
       antdImport.push("Select");
-      propsName.push(optionsConfigName);
+      if(!options) {
+        propsName.push(optionsConfigName);
+      }
+      
       return `<Select options={${
         options ? JSON.stringify(options) : optionsConfigName
       }} ${ot}/>`;
@@ -83,7 +84,9 @@ const createAntdFormComponentType = (type: string, props: any) => {
 
     case "radio": {
       antdImport.push("Radio");
-      propsName.push(optionsConfigName);
+      if(!options) {
+        propsName.push(optionsConfigName);
+      }
       return `<Radio.Group options={${
         options ? JSON.stringify(options) : optionsConfigName
       }} ${ot}/>`;
@@ -92,8 +95,6 @@ const createAntdFormComponentType = (type: string, props: any) => {
     case "textarea": {
       antdImport.push("Input");
       otherAntdConst.push("const { TextArea } = Input;");
-
-      propsName.push(optionsConfigName);
       return `<TextArea  ${ot}/>`;
     }
 

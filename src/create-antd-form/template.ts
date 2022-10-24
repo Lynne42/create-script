@@ -98,6 +98,17 @@ const data: FormType = {
         placeHolder: "请输入",
       },
     },
+    {
+      type: "InputNumber",
+      label: "数字输入框",
+      name: "InputNumber1",
+      rules: [],
+      props: {
+        placeHolder: "请输入",
+        min: 1,
+        max: 10,
+      },
+    },
   ],
 };
 

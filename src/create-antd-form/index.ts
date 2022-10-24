@@ -1,4 +1,3 @@
-
 import fs from "fs";
 import main from "./create";
 
@@ -12,20 +11,20 @@ function createFile(fileName: string, content: string) {
     },
     (err) => {
       if (err) console.log(err);
-      
+      process.exit(0);
     }
   );
 }
 
 function init() {
-  const { fileName='demo' } = process.env;
+  const { fileName = "demo" } = process.env;
 
   const content = main({
     ...process.env,
     fileName: fileName,
   });
 
-  createFile(fileName, content)
+  createFile(fileName, content);
 }
 
 init();
