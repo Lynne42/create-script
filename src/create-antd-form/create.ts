@@ -26,7 +26,7 @@ const createReactComponent = (props: FormType, children: any) => {
             autoComplete="off"
             className="define-form define-task-create-form"
         >
-            ${children.join(" ")}
+            ${children.join("")}
         </Form>`;
 };
 
@@ -36,37 +36,38 @@ const createAntdFormItem = (props: FormComponentType, children: any) => {
     type,
     label,
     name,
-    rules,
+    initialValue,
+    rules = [],
     formItemClassname = "",
     props: childProps,
   } = props;
   if (type === "layer") {
     return `<Form.Item
             label='${label}'
-            noStyle
-            className='${formItemClassname}'>
-
+            className='${formItemClassname}'
+            style={{marginBottom: 0}}>
             ${children}
         </Form.Item>`;
   }
   return `<Form.Item
         label='${label}'
         name='${name}'
-        rules={${rules}}
+        rules={[]}
+        initialvalue='${initialValue}'
         className='${formItemClassname}'
     >
         ${children}
     </Form.Item>`;
 };
 
-// 创建antd form组件
+// 创建antd form 各个组件
 const createAntdFormComponentType = (type: string, props: any) => {
-  const { placeholder, ...other } = props || {};
+  const { name, options, ...other } = props || {};
   const optionsConfigName = `${props.name}ListConfig`;
-  
+
   const ot = Object.keys(other)
     .map((item) => `${item}='${other[item]}'`)
-    .join(" ");
+    .join("");
   switch (type) {
     case "input": {
       antdImport.push("Input");
@@ -74,14 +75,26 @@ const createAntdFormComponentType = (type: string, props: any) => {
     }
     case "select": {
       antdImport.push("Select");
-      otherAntdConst.push(`const { Option } = Select;`);
       propsName.push(optionsConfigName);
-      return `<Select ${ot} >
-              {(${optionsConfigName}).map(
-                (item: any) =>
-                  <Option value={item.value}>{item.label}</Option>
-              )}
-                </Select>`;
+      return `<Select options={${
+        options ? JSON.stringify(options) : optionsConfigName
+      }} ${ot}/>`;
+    }
+
+    case "radio": {
+      antdImport.push("Radio");
+      propsName.push(optionsConfigName);
+      return `<Radio.Group options={${
+        options ? JSON.stringify(options) : optionsConfigName
+      }} ${ot}/>`;
+    }
+
+    case "textarea": {
+      antdImport.push("Input");
+      otherAntdConst.push("const { TextArea } = Input;");
+
+      propsName.push(optionsConfigName);
+      return `<TextArea  ${ot}/>`;
     }
 
     default: {
@@ -108,7 +121,7 @@ const getFormComponentType = (data: FormComponentType[]) => {
         );
         cols.push(`<Col span='${span}'>${cpm}</Col>`);
       });
-      comps.push(createAntdFormItem(item, `<Row>${cols.join(" ")}</Row>`));
+      comps.push(createAntdFormItem(item, `<Row>${cols.join("")}</Row>`));
     } else {
       comps.push(
         createAntdFormItem(
@@ -132,7 +145,7 @@ function main(processEnv: any) {
 
   const { fileName = "demo" } = nowTemplate;
   const componentName = `${titleCase(fileName)}Component`;
-  
+
   const formChildren = getFormComponentType(nowTemplate.children);
   const form = createReactComponent(nowTemplate, formChildren);
 
@@ -143,7 +156,7 @@ function main(processEnv: any) {
   return `
         import React, { useCallback} from 'react';
         import {${importAntd}} from 'antd';
-        ${Array.from(new Set(otherAntdConst)).join(' ')}
+        ${Array.from(new Set(otherAntdConst)).join(" ")}
         type Props = {
 
         }

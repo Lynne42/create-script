@@ -1,9 +1,12 @@
 import React, { useCallback } from "react";
-import { Form, Row, Col, Input, Select } from "antd";
-const { Option } = Select;
+import { Form, Row, Col, Input, Select, Radio } from "antd";
+const { TextArea } = Input;
 type Props = {};
 const DemoComponent: React.FunctionComponent<Props> = (props) => {
-  const { vvListConfig, versionListConfig } = props;
+  const {
+    vvListConfig,
+    select2ListConfig,
+  } = props;
   const [form] = Form.useForm();
 
   // 提交
@@ -18,7 +21,7 @@ const DemoComponent: React.FunctionComponent<Props> = (props) => {
     <div className="flex">
       <Form
         name="basic"
-        layout="vertical"
+        layout="horizontal"
         form={form}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
@@ -28,30 +31,67 @@ const DemoComponent: React.FunctionComponent<Props> = (props) => {
         autoComplete="off"
         className="define-form define-task-create-form"
       >
-        <Form.Item label="名称" name="name" rules={} className="">
-          <Input allowClear placeHolder="请输入名称" name="name" />
-        </Form.Item>{" "}
-        <Form.Item label="嵌套" noStyle className="">
+        <Form.Item
+          label="名称"
+          name="name"
+          rules={[]}
+          initialvalue="undefined"
+          className=""
+        >
+          <Input allowClear placeHolder="请输入名称" />
+        </Form.Item>
+        <Form.Item label="嵌套" className="" style={{ marginBottom: 0 }}>
           <Row>
             <Col span="12">
-              <Form.Item label="算法" name="vv" rules={} className="">
-                <Select placeHolder="请选择算法" name="vv">
-                  {vvListConfig.map((item: any) => (
-                    <Option value={item.value}>{item.label}</Option>
-                  ))}
-                </Select>
+              <Form.Item
+                label="select1"
+                name="vv"
+                rules={[]}
+                initialvalue="undefined"
+                className=""
+              >
+                <Select options={vvListConfig} placeHolder="请选择select1" />
               </Form.Item>
-            </Col>{" "}
+            </Col>
             <Col span="12">
-              <Form.Item label="版本" name="version" rules={} className="">
-                <Select placeHolder="请选择版本" name="version">
-                  {versionListConfig.map((item: any) => (
-                    <Option value={item.value}>{item.label}</Option>
-                  ))}
-                </Select>
+              <Form.Item
+                label="版本"
+                name="select2"
+                rules={[]}
+                initialvalue="undefined"
+                className=""
+              >
+                <Select
+                  options={select2ListConfig}
+                  placeHolder="请选择select2"
+                />
               </Form.Item>
             </Col>
           </Row>
+        </Form.Item>
+        <Form.Item
+          label="单选"
+          name="radio1"
+          rules={[]}
+          initialvalue="r1"
+          className=""
+        >
+          <Radio.Group
+            options={[
+              { label: "r1", value: "r1" },
+              { label: "r2", value: "r2" },
+            ]}
+            placeHolder="请选择"
+          />
+        </Form.Item>
+        <Form.Item
+          label="文本域"
+          name="textarea1"
+          rules={[]}
+          initialvalue="undefined"
+          className=""
+        >
+          <TextArea placeHolder="请输入" />
         </Form.Item>
       </Form>
     </div>
