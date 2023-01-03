@@ -31,35 +31,17 @@ export type FormType = {
 };
 
 const data: FormType = {
-  layout: "horizontal",
-  initialValues: {},
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
+  layout: "horizontal", initialValues: {}, labelCol: { span: 4 }, wrapperCol: { span: 20 },
   children: [
     {
-      type: "input",
-      label: "名称",
-      name: "name",
-      required: true,
-      rules: [],
-      props: {
-        placeHolder: "请输入名称",
-      },
+      type: "input", label: "名称", name: "name", required: true,rules: [], props: { placeholder: "请输入名称" },
     },
     {
-      type: "layer",
-      label: "嵌套",
+      type: "layer", label: "嵌套",
       children: [
-        {
-          type: "select",
-          label: "select1",
-          name: "vv",
-          span: 12,
-          required: true,
+        { type: "select", label: "select1", name: "vv", span: 12, required: true,
           rules: [{ require: true, message: "请填写" }],
-          props: {
-            placeHolder: "请选择select1",
-          },
+          props: { placeholder: "请选择select1", },
         },
         {
           type: "select",
@@ -70,21 +52,14 @@ const data: FormType = {
           required: true,
           rules: [],
           props: {
-            placeHolder: "请选择select2",
+            placeholder: "请选择select2",
           },
         },
       ],
     },
-    {
-      type: "radio",
-      label: "单选",
-      name: "radio1",
-      rules: [],
-      props: {
-        placeHolder: "请选择",
-        options: [
-          { label: "r1", value: "r1" },
-          { label: "r2", value: "r2" },
+    { type: "radio", label: "单选", name: "radio1", rules: [],
+      props: { placeholder: "请选择",
+        options: [ { label: "r1", value: "r1" }, { label: "r2", value: "r2" },
         ],
       },
       initialValue: "r1",
@@ -95,7 +70,7 @@ const data: FormType = {
       name: "textarea1",
       rules: [],
       props: {
-        placeHolder: "请输入",
+        placeholder: "请输入",
       },
     },
     {
@@ -104,7 +79,7 @@ const data: FormType = {
       name: "InputNumber1",
       rules: [],
       props: {
-        placeHolder: "请输入",
+        placeholder: "请输入",
         min: 1,
         max: 10,
       },

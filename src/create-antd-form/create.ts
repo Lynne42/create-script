@@ -1,5 +1,5 @@
-import template from "./template";
-import { FormType, FormComponentType } from "./template";
+import template from "./template1";
+import { FormType, FormComponentType } from "./template1";
 
 const antdImport = ["Form", "Row", "Col"];
 const otherAntdConst: string[] = [];
@@ -45,7 +45,7 @@ const createAntdFormItem = (props: FormComponentType, children: any) => {
         label='${label}'
         name='${name}'
         rules={[]}
-        initialvalue='${initialValue}'
+        initialValue='${initialValue}'
         className='${formItemClassname}'
     >
         ${children}
@@ -73,10 +73,10 @@ const createAntdFormComponentType = (type: string, props: any) => {
 
     case "select": {
       antdImport.push("Select");
-      if(!options) {
+      if (!options) {
         propsName.push(optionsConfigName);
       }
-      
+
       return `<Select options={${
         options ? JSON.stringify(options) : optionsConfigName
       }} ${ot}/>`;
@@ -84,7 +84,7 @@ const createAntdFormComponentType = (type: string, props: any) => {
 
     case "radio": {
       antdImport.push("Radio");
-      if(!options) {
+      if (!options) {
         propsName.push(optionsConfigName);
       }
       return `<Radio.Group options={${
